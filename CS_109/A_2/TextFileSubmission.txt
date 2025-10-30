@@ -1,0 +1,199 @@
+// Main.java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Rectangle Functions
+        System.out.println("\nLet's calculate the area of a rectangle.");
+        Rectangle rect = new Rectangle();
+        int length = rect.getDimen(sc, "Length");
+        int width = rect.getDimen(sc, "Width");
+        rect.calcArea(length, width);
+        rect.dispArea();
+
+        // Volume Claculation
+        System.out.println("\nLet's calculate the volume of a 3D shape.");
+        Obj3D shape = Obj3D.selectOption(sc);
+        shape.getDimens(sc);
+        shape.calcVolume();
+        shape.dispVolume();
+
+        sc.close();
+    }
+}
+
+// Rectangle.java
+import java.util.Scanner;
+
+public class Rectangle {
+    int area = 0;
+
+    public Rectangle() {
+        // Empty
+    }
+
+    public int getDimen(Scanner sc, String dimen) {
+        boolean done = false;
+        int dimenVal = 0;
+
+        while (done == false) {
+            try {
+                System.out.print("\n" + dimen + ": ");
+                dimenVal = sc.nextInt();
+                if (dimenVal < 0) {
+                    System.err.println("Value must be positive.");
+                } else {
+                    done = true;
+                }
+            } catch (java.util.InputMismatchException err) {
+                System.err.println("Enter an integer.");
+                sc.nextLine(); 
+            }
+        }
+
+        return dimenVal;
+    }
+
+    public void calcArea(int l, int w) {
+        this.area = l * w;
+    }
+
+    public void dispArea() {
+        System.out.println("\nThe area is " + this.area + ".");
+    }
+}
+
+// Cylinder.java
+import java.util.Scanner;
+import java.lang.Math;
+
+public class Cylinder extends Obj3D{
+    float volume = 0f;
+    float radius = 0f, height = 0f;
+
+    public Cylinder() {
+        // Empty
+    }
+
+    public void getDimens(Scanner sc) {
+        this.radius = super.getDimen(sc, "Radius");
+        this.height = super.getDimen(sc, "Height");
+    }
+
+    public void calcVolume() {
+        this.volume = (float)(Math.PI * this.height * this.radius * this.radius);
+    }
+
+    public void dispVolume() {
+        System.out.println("\nThe volume is about " + this.volume + ".");
+    }
+}
+
+// Cube.java
+import java.util.Scanner;
+
+public class Cube extends Obj3D{
+    float volume = 0f;
+    float length = 0f, width = 0f, height = 0f;
+
+    public Cube() {
+        // Empty
+    }
+
+    public void getDimens(Scanner sc) {
+        this.length = super.getDimen(sc, "Length");
+        this.width = super.getDimen(sc, "Width");
+        this.height = super.getDimen(sc, "Height");
+    }
+
+    public void calcVolume() {
+        this.volume = this.length * this.width * this.height;
+    }
+
+    public void dispVolume() {
+        System.out.println("\nThe volume is " + this.volume + ".");
+    }
+}
+
+// Sphere.java
+import java.util.Scanner;
+import java.lang.Math;
+
+public class Sphere extends Obj3D {
+    float volume = 0f;
+    float radius = 0f;
+
+    public Sphere() {
+        // Empty
+    }
+
+    public void getDimens(Scanner sc) {
+        this.radius = super.getDimen(sc, "Radius");
+    }
+
+    public void calcVolume() {
+        this.volume = (float)(4f / 3f * Math.PI * this.radius * this.radius * this.radius);
+    }
+
+    public void dispVolume() {
+        System.out.println("\nThe volume is about " + this.volume + ".");
+    }
+}
+
+// Obj3D.java
+import java.util.Scanner;
+
+public abstract class Obj3D {
+    public abstract void getDimens(Scanner sc);
+    public abstract void calcVolume();
+    public abstract void dispVolume();
+
+    public static Obj3D selectOption(Scanner sc) {
+        boolean done = false;
+        int choice = 0;
+
+        while (done == false) {
+            try {
+                System.out.print("\nSelect (1) Cylinder, (2) Cube, (3) Sphere: ");
+                choice = sc.nextInt();
+                if (choice != 1 && choice != 2 && choice != 3) {
+                    System.err.println("Enter 1, 2, or 3.");
+                } else {
+                    done = true;
+                }
+            } catch (java.util.InputMismatchException err) {
+                System.err.println("Enter an integer.");
+                sc.nextLine(); 
+            }
+        }
+
+        if (choice == 1) { return new Cylinder(); }
+        else if (choice == 2) { return new Cube(); }
+        else if (choice == 3) { return new Sphere(); }
+        else { return null; }
+    }
+
+    public float getDimen(Scanner sc, String dimen) {
+        boolean done = false;
+        float dimenVal = 0f;
+
+            while (done == false) {
+                try {
+                    System.out.print("\n" + dimen + ": ");
+                    dimenVal = sc.nextFloat();
+                    if (dimenVal < 0) {
+                        System.err.println("Value must be positive.");
+                    } else {
+                        done = true;
+                    }
+                } catch (java.util.InputMismatchException err) {
+                    System.err.println("Enter a decimal or integer.");
+                    sc.nextLine(); 
+                }
+            }
+
+        return dimenVal;
+    }
+}
