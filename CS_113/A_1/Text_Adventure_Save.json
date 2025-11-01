@@ -1,0 +1,12 @@
+{
+    "name": "Claude",
+    "class_choice": "FIGHTER",
+    "decisions": [
+        "PARRY",
+        "PRAY"
+    ],
+    "outcomes": [
+        "UNSUCCESSFUL",
+        "WITH HONOR"
+    ]
+}
